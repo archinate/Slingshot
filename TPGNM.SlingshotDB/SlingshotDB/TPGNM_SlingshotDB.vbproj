@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>
+    </SchemaVersion>
+    <ProjectGuid>{7DF994AE-CC2D-4364-B6EA-DAF4F59E7F6B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>SlingshotDB</RootNamespace>
+    <AssemblyName>SlingshotDB</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>SlingshotDB.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>SlingshotDB.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GH_IO, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6a29997d2e6b4f97, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Grasshopper for Rhino 5\GH_IO.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Grasshopper, Version=1.0.0.20, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Grasshopper for Rhino 5\Grasshopper.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.6.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\MySQL\MySQL Connector Net 6.6.4\Assemblies\v2.0\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RhinoCommon">
+      <HintPath>..\..\..\..\..\..\..\Program Files\Rhinoceros 5.0 (64-bit)\System\RhinoCommon.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\..\..\..\##Computation\SQLite\64bit\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="SQLite\GHSQLite_Command.vb" />
+    <Compile Include="SQLite\GHSQLite_CreateDB.vb" />
+    <Compile Include="SQLite\GHSQLite_Query.vb" />
+    <Compile Include="Utilities\UTIL_RhinoPack.vb" />
+    <Compile Include="Utilities\UTIL_RhinoUnpack.vb" />
+    <Compile Include="Utilities\UTIL_Serialize.vb" />
+    <Compile Include="SQL\SQLCOM2_CreateGenomeDB.vb" />
+    <Compile Include="SQL\SQLCOM2_CreateLinesDB.vb" />
+    <Compile Include="SQL\SQLCOM2_CreatePointsDB.vb" />
+    <Compile Include="MYSQL\GHMYSQL_Command.vb" />
+    <Compile Include="MYSQL\GHMYSQL_MySQLConnect.vb" />
+    <Compile Include="MYSQL\GHMYSQL_Query.vb" />
+    <Compile Include="ODBC\GHODBC_Command.vb" />
+    <Compile Include="ODBC\GHODBC_PostgresConnect.vb" />
+    <Compile Include="ODBC\GHODBC_Query.vb" />
+    <Compile Include="OLEDB\GHOLEDB_Command.vb" />
+    <Compile Include="OLEDB\GHOLEDB_ExcelConnect.vb" />
+    <Compile Include="OLEDB\GHOLEDB_Query.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SQL\SQLCOM_CreateColumn.vb" />
+    <Compile Include="SQL\SQLCOM_CreateColumnAfter.vb" />
+    <Compile Include="SQL\SQLCOM_CreateDatabase.vb" />
+    <Compile Include="SQL\SQLCOM_CreateTable.vb" />
+    <Compile Include="SQL\SQLCOM_Insert.vb" />
+    <Compile Include="SQL\SQLCOM_TruncateTable.vb" />
+    <Compile Include="SQL\SQLQUERY_ColumnList.vb" />
+    <Compile Include="SQL\SQLQUERY_DatabaseList.vb" />
+    <Compile Include="SQL\SQLQUERY_Select.vb" />
+    <Compile Include="SQL\SQLQUERY_TableList.vb" />
+    <Compile Include="Utilities\UTIL_ColumnParameter.vb" />
+    <Compile Include="SQL\SQLCOM2_CreateMeshDB.vb" />
+    <Compile Include="SQL\SQLCOM2_CreateSensorDB.vb" />
+    <Compile Include="Utilities\UTIL_Deserialize.vb" />
+    <Compile Include="Utilities\UTIL_FormatRows.vb" />
+    <Compile Include="Web\WEB_FtpDownload.vb" />
+    <Compile Include="Web\WEB_FtpUpload.vb" />
+    <Compile Include="Web\WEB_HttpReader.vb" />
+    <Compile Include="Web\WEB_TwitterSearch.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GHODBC_Command.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GHODBC_PostgresConnect.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GHODBC_Query.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GHOLEDB_Command.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GHOLEDB_Query.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OLEDB_Query.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GHMYSQL_Command.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GHMYSQL_MySQLConnect.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GHMySQL_Query.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ODBC_Command.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ODBC_PostgresConnect.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ODBC_Query.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OLEDB_Command.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OLEDB_ExcelConnect.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GHOLEDB_ExcelConnect.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WEB_HTTPReader.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WEB_TwitterSearch.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WEB_FtpDownload.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WEB_FtpUpload.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SQLUTIL_ColumnParameter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SQLUTIL_FormatRows.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SQLQUERY_Select.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SQLQUERY_ColumnList.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SQLQUERY_DatabaseList.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SQLQUERY_TableList.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SQLCOM_CreateColumn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SQLCOM_CreateColumnAfter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SQLCOM_CreateDatabase.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SQLCOM_CreateTable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SQLCOM_Insert.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SQLCOM_Truncate.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CreateMeshDB.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Slingshot! ICON Development Kit-07.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Slingshot! ICON Development Kit-16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SQLUTIL_CreateGenomeDb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SQLUTIL_CreateLineDb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SQLUTIL_CreateSensorDb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GHSQLite_Command.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GHSQLite_CreateDB.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GHSQLite_Query.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SQLUtility_DeSerialize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SQLUtility_Serialize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Slingshot! ICON Development Kit-38.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Slingshot! ICON Development Kit-39.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
