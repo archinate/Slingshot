@@ -1,7 +1,7 @@
 Slingshot! for Grasshopper
 =========
 
-Slingshot! Database for Grasshopper exposes components for use with the Grasshopper plug-in for Rhino.  Slingshot! components enable users to access, modify, query, and create relational databases from within Grasshopper.
+Slingshot! for Grasshopper exposes components for use with the Grasshopper plug-in for Rhino.  Slingshot! components enable users to access, modify, query, and create relational databases from within Grasshopper.
 
     Copyright (C) 2013  Nathan Miller
 
