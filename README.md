@@ -5,8 +5,7 @@ Slingshot! for Grasshopper exposes components for use with the Grasshopper plug-
 
 Originally, Slingshot! was first released in April 2011 as a free plug-in for Grasshopper.  I am happy to now offer Slingshot! as an Open Source project in the hope that the concepts introduced by this plug-in will be expanded upon by collaborators and also inform the work of other projects in the Computational Design community.
 
-Enjoy the source!
--Nate
+Enjoy the source! -Nate
 
 Slingshot! was/is authored by Nathan Miller.  Official releases are available through The Proving Ground http://TheProvingGround.org
 
