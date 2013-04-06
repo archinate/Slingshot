@@ -28,7 +28,6 @@ Public Class UTIL_ColumnParameter
   Protected Overrides ReadOnly Property Internal_Icon_24x24 As System.Drawing.Bitmap
     Get
       Return My.Resources.SQLUTIL_ColumnParameter
-
     End Get
   End Property
 

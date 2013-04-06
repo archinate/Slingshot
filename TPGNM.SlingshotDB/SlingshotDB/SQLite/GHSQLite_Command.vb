@@ -37,7 +37,6 @@ Public Class GHSQLite_Command
   Protected Overrides ReadOnly Property Internal_Icon_24x24 As System.Drawing.Bitmap
     Get
       Return My.Resources.GHSQLite_Command
-
     End Get
   End Property
 #End Region

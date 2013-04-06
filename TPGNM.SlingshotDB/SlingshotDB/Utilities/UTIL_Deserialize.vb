@@ -29,7 +29,6 @@ Public Class UTIL_Deserialize
   End Property
 
   'GUID generator http://www.guidgenerator.com/online-guid-generator.aspx
-
   Public Overrides ReadOnly Property ComponentGuid As System.Guid
     Get
       Return New Guid("{a74bb9ac-a31c-4014-b368-ca02f40918a3}")
@@ -40,7 +39,6 @@ Public Class UTIL_Deserialize
   Protected Overrides ReadOnly Property Internal_Icon_24x24 As System.Drawing.Bitmap
     Get
       Return My.Resources.SQLUtility_DeSerialize
-
     End Get
   End Property
 

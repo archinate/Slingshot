@@ -24,7 +24,6 @@ Public Class SQLCOM2_CreatePointsDB
   Public Overrides ReadOnly Property Exposure As Grasshopper.Kernel.GH_Exposure
     Get
       Return GH_Exposure.tertiary
-
     End Get
   End Property
 

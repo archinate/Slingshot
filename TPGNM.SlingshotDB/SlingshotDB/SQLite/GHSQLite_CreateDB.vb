@@ -26,7 +26,6 @@ Public Class GHSQLite_CreateDB
   End Property
 
   'GUID generator http://www.guidgenerator.com/online-guid-generator.aspx
-
   Public Overrides ReadOnly Property ComponentGuid As System.Guid
     Get
       Return New Guid("{a2dfdff6-5add-4487-9ac9-3bae2cd12ec2}")
@@ -37,7 +36,6 @@ Public Class GHSQLite_CreateDB
   Protected Overrides ReadOnly Property Internal_Icon_24x24 As System.Drawing.Bitmap
     Get
       Return My.Resources.GHSQLite_CreateDB
-
     End Get
   End Property
 #End Region

@@ -24,8 +24,8 @@ Public Class GHODBC_Command
       Return GH_Exposure.secondary
     End Get
   End Property
-  'GUID generator http://www.guidgenerator.com/online-guid-generator.aspx
 
+  'GUID generator http://www.guidgenerator.com/online-guid-generator.aspx
   Public Overrides ReadOnly Property ComponentGuid As System.Guid
     Get
       Return New Guid("{d5293b9f-184b-4ac1-9ec3-fc57bf4711af}")
@@ -36,7 +36,6 @@ Public Class GHODBC_Command
   Protected Overrides ReadOnly Property Internal_Icon_24x24 As System.Drawing.Bitmap
     Get
       Return My.Resources.GHODBC_Command
-
     End Get
   End Property
 #End Region

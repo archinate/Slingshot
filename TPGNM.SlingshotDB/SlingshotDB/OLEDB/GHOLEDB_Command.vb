@@ -26,7 +26,6 @@ Public Class GHOLEDB_Command
   End Property
 
   'GUID generator http://www.guidgenerator.com/online-guid-generator.aspx
-
   Public Overrides ReadOnly Property ComponentGuid As System.Guid
     Get
       Return New Guid("{4904b8d4-8f52-4a92-9488-0edc861b3ab3}")

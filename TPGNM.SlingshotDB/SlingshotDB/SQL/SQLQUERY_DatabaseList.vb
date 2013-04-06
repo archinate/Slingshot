@@ -24,7 +24,6 @@ Public Class GHMYSQL_DatabaseList
     End Get
   End Property
 
-
   'GUID generator http://www.guidgenerator.com/online-guid-generator.aspx
   Public Overrides ReadOnly Property ComponentGuid As System.Guid
     Get
@@ -36,7 +35,6 @@ Public Class GHMYSQL_DatabaseList
   Protected Overrides ReadOnly Property Internal_Icon_24x24 As System.Drawing.Bitmap
     Get
       Return My.Resources.SQLQUERY_DatabaseList
-
     End Get
   End Property
 #End Region

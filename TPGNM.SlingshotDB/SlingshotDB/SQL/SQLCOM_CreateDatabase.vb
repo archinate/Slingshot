@@ -27,7 +27,6 @@ Public Class SQLCOM_CreateDatabase
   Protected Overrides ReadOnly Property Internal_Icon_24x24 As System.Drawing.Bitmap
     Get
       Return My.Resources.SQLCOM_CreateDatabase
-
     End Get
   End Property
 #End Region

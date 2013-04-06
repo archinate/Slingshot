@@ -40,7 +40,6 @@ Public Class GHSQLite_Query
   End Property
 #End Region
 
-
 #Region "Inputs/Outputs"
   Protected Overrides Sub RegisterInputParams(ByVal pManager As Grasshopper.Kernel.GH_Component.GH_InputParamManager)
     pManager.AddBooleanParameter("Create Toggle", "CToggle", "Set to 'True' to create the *.s3db database file.", GH_ParamAccess.item, False)

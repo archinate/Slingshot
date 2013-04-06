@@ -28,7 +28,6 @@ Public Class UTIL_Serialize
     End Property
 
     'GUID generator http://www.guidgenerator.com/online-guid-generator.aspx
-
     Public Overrides ReadOnly Property ComponentGuid As System.Guid
         Get
             Return New Guid("{cddc8907-9a81-4fa9-b1e5-828222876cef}")
@@ -39,7 +38,6 @@ Public Class UTIL_Serialize
     Protected Overrides ReadOnly Property Internal_Icon_24x24 As System.Drawing.Bitmap
         Get
             Return My.Resources.SQLUtility_Serialize
-
         End Get
   End Property
 

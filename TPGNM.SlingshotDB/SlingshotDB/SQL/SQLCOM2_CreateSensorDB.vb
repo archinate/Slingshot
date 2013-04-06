@@ -27,7 +27,6 @@ Public Class SQLCOM2_CreateSensorDB
     End Get
   End Property
 
-
   'GUID generator http://www.guidgenerator.com/online-guid-generator.aspx
   Public Overrides ReadOnly Property ComponentGuid As System.Guid
     Get

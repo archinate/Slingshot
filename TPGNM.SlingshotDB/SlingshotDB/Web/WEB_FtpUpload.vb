@@ -32,7 +32,6 @@ Public Class WEB_FtpUpload
   End Property
 #End Region
 
-
 #Region "Inputs/Outputs"
   Protected Overrides Sub RegisterInputParams(ByVal pManager As Grasshopper.Kernel.GH_Component.GH_InputParamManager)
     pManager.AddTextParameter("FTP Address", "Address", "The FTP Address to upload to.", GH_ParamAccess.item)

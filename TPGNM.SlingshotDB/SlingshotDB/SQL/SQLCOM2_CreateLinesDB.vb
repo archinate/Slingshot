@@ -20,6 +20,7 @@ Public Class SQLCOM2_CreateLinesDB
     MyBase.New("SQL Create Line Database", "LineDB", "Create a special database for storing line data.", "Slingshot!", "SQL")
   End Sub
 
+  'Exposure
   Public Overrides ReadOnly Property Exposure As Grasshopper.Kernel.GH_Exposure
     Get
       Return GH_Exposure.tertiary

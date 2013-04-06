@@ -27,7 +27,6 @@ Public Class SQLCOM_Insert
   Protected Overrides ReadOnly Property Internal_Icon_24x24 As System.Drawing.Bitmap
     Get
       Return My.Resources.SQLCOM_Insert
-
     End Get
   End Property
 #End Region

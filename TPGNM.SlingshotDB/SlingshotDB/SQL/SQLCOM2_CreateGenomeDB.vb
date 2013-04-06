@@ -14,15 +14,13 @@ Public Class SQLCOM2_CreateGenomeDB
 #Region "Register"
   'Methods
   Public Sub New()
-
     MyBase.New("SQL Create Genome Database", "GeneDB", "Create a special database for storing design genomes", "Slingshot!", "SQL")
-
   End Sub
 
+  'Exposure
   Public Overrides ReadOnly Property Exposure As Grasshopper.Kernel.GH_Exposure
     Get
       Return GH_Exposure.tertiary
-
     End Get
   End Property
 

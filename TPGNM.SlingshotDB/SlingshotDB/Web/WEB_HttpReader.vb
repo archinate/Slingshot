@@ -32,7 +32,6 @@ Public Class WEB_HttpReader
   Protected Overrides ReadOnly Property Internal_Icon_24x24 As System.Drawing.Bitmap
     Get
       Return My.Resources.WEB_HTTPReader
-
     End Get
   End Property
 #End Region

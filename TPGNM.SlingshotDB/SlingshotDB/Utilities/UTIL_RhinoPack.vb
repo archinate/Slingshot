@@ -13,7 +13,6 @@ Imports System
 
 Imports System.Data.SQLite
 
-
 Public Class UTIL_RhinoPack
   Inherits Grasshopper.Kernel.GH_Component
 
@@ -81,7 +80,6 @@ Public Class UTIL_RhinoPack
     DA.GetDataList(Of Object)(4, objList)
 
     If ctoggle = True Then
-
 
       Try
         'serialized string lists
