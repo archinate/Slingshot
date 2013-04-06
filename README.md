@@ -1,9 +1,14 @@
 Slingshot! for Grasshopper
 =========
 
-Slingshot! for Grasshopper exposes components for use with the Grasshopper plug-in for Rhino.  Slingshot! components enable users to access, modify, query, and create relational databases from within Grasshopper.
+Slingshot! for Grasshopper exposes components for use with the Grasshopper plug-in for Rhino.  Slingshot! components enable users to access, modify, query, and create relational databases from within Grasshopper using interfaces such as MySQL, ODBC, and SQLite.  
 
-Slingshot! was/is orignally authored by Nathan Miller and released through The Proving Ground http://TheProvingGround.org
+Originally, Slingshot! was first released in April 2011 as a free plug-in for Grasshopper.  I am happy to now offer Slingshot! as an Open Source project in the hope that the concepts introduced by this plug-in will be expanded upon by collaborators and also inform the work of other projects in the Computational Design community.
+
+Enjoy the source!
+-Nate
+
+Slingshot! was/is authored by Nathan Miller.  Official releases are available through The Proving Ground http://TheProvingGround.org
 
     Copyright (C) 2013  Nathan Miller
 
