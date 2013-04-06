@@ -1,30 +1,13 @@
-﻿Imports Rhino
-Imports Rhino.Geometry
-Imports Rhino.Collections
+﻿Imports System
 
 Imports Grasshopper
 Imports Grasshopper.Kernel
 Imports Grasshopper.Kernel.Data
 Imports Grasshopper.Kernel.Types
-
 Imports GH_IO
 Imports GH_IO.Serialization
 
 Imports MySql
-
-Imports System
-Imports System.IO
-Imports System.Xml
-Imports System.Xml.Linq
-Imports System.Linq
-Imports System.Data
-Imports System.Drawing
-Imports System.Reflection
-Imports System.Collections
-Imports System.Windows.Forms
-Imports Microsoft.VisualBasic
-Imports System.Collections.Generic
-Imports System.Runtime.InteropServices
 
 Public Class GHMYSQL_Query
   Inherits Grasshopper.Kernel.GH_Component
@@ -84,18 +67,17 @@ Public Class GHMYSQL_Query
         Dim sqlDataSet As New DataSet()
 
         'Establish MySQL Database Connection
-
         Dim ConnectionString As String = cstring
-
         Dim mysqlConnect As MySql.Data.MySqlClient.MySqlConnection = New MySql.Data.MySqlClient.MySqlConnection(ConnectionString)
         mysqlConnect.Open()
 
         Dim mysqldata As New MySql.Data.MySqlClient.MySqlDataAdapter(query, mysqlConnect)
 
+        'Fill the data set
         mysqldata.Fill(sqlDataSet, "result")
         mysqlConnect.Close()
 
-
+        'Get data lists
         Dim DataListA As New List(Of Object)
         For i As Integer = 0 To sqlDataSet.Tables(0).Rows.Count - 1
           DataListA.Add(sqlDataSet.Tables(0).Rows(i)(column))
@@ -110,18 +92,16 @@ Public Class GHMYSQL_Query
           DataListB.Add(rowString)
         Next
 
-
+        'Set Data lists to outputs
         DA.SetDataList(1, DataListA)
         DA.SetDataList(2, DataListB)
 
       End If
 
-
     Catch ex As Exception
-
       DA.SetData(0, ex.ToString)
-
     End Try
+
   End Sub
 #End Region
 

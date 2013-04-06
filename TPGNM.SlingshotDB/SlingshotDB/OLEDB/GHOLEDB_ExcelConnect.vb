@@ -1,8 +1,4 @@
-﻿Imports Rhino
-Imports Rhino.Geometry
-Imports Rhino.Collections
-
-Imports Grasshopper
+﻿Imports Grasshopper
 Imports Grasshopper.Kernel
 Imports Grasshopper.Kernel.Data
 Imports Grasshopper.Kernel.Types
@@ -11,19 +7,6 @@ Imports GH_IO
 Imports GH_IO.Serialization
 
 Imports System
-Imports System.IO
-Imports System.Xml
-Imports System.Xml.Linq
-Imports System.Linq
-Imports System.Data
-Imports System.Drawing
-Imports System.Reflection
-Imports System.Collections
-Imports System.Windows.Forms
-Imports Microsoft.VisualBasic
-Imports System.Collections.Generic
-Imports System.Runtime.InteropServices
-
 
 Public Class GHMYSQL_ExcelConnect
   Inherits Grasshopper.Kernel.GH_Component
@@ -55,7 +38,6 @@ Public Class GHMYSQL_ExcelConnect
     End Get
   End Property
 #End Region
-
 
 #Region "Inputs/Outputs"
   Protected Overrides Sub RegisterInputParams(ByVal pManager As Grasshopper.Kernel.GH_Component.GH_InputParamManager)

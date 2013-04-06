@@ -1,7 +1,6 @@
 ﻿Imports Grasshopper.Kernel
 Imports Grasshopper.Kernel.Data
 Imports Grasshopper.Kernel.Types
-
 Imports GH_IO
 Imports GH_IO.Serialization
 
@@ -11,7 +10,6 @@ Imports Rhino.Geometry.Collections
 
 Imports System
 Imports System.IO
-
 
 Public Class SQLCOM2_CreateSensorDB
   Inherits Grasshopper.Kernel.GH_Component

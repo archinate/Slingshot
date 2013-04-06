@@ -1,29 +1,11 @@
-﻿Imports Rhino
-Imports Rhino.Geometry
-Imports Rhino.Collections
-
-Imports Grasshopper
+﻿Imports Grasshopper
 Imports Grasshopper.Kernel
 Imports Grasshopper.Kernel.Data
 Imports Grasshopper.Kernel.Types
-
 Imports GH_IO
 Imports GH_IO.Serialization
 
 Imports System
-Imports System.IO
-Imports System.Xml
-Imports System.Xml.Linq
-Imports System.Linq
-Imports System.Data
-Imports System.Drawing
-Imports System.Reflection
-Imports System.Collections
-Imports System.Windows.Forms
-Imports Microsoft.VisualBasic
-Imports System.Collections.Generic
-Imports System.Runtime.InteropServices
-
 Imports System.Data.OleDb
 
 Public Class GHOLEDB_QUERY
@@ -58,7 +40,6 @@ Public Class GHOLEDB_QUERY
   End Property
 #End Region
 
-
 #Region "Inputs/Outputs"
   Protected Overrides Sub RegisterInputParams(ByVal pManager As Grasshopper.Kernel.GH_Component.GH_InputParamManager)
     pManager.AddTextParameter("Connect String", "CString", "A database connection string.", GH_ParamAccess.item)
@@ -92,16 +73,15 @@ Public Class GHOLEDB_QUERY
       If connect = True Then
         Dim sqlDataSet As New DataSet()
 
-        'Establish MySQL Database Connection
-
+        'Establish OLEDB Database Connection
         Dim dbConnect As OleDbConnection = New OleDbConnection(cstring)
         dbConnect.Open()
 
         Dim dbdata As New OleDbDataAdapter(query, dbConnect)
 
+        'Fill dataset
         dbdata.Fill(sqlDataSet, "result")
         dbConnect.Close()
-
 
         Dim DataListA As New List(Of Object)
         For i As Integer = 0 To sqlDataSet.Tables(0).Rows.Count - 1
@@ -117,18 +97,16 @@ Public Class GHOLEDB_QUERY
           DataListB.Add(rowString)
         Next
 
-
+        'Set lists to output
         DA.SetDataList(1, DataListA)
         DA.SetDataList(2, DataListB)
 
       End If
 
-
     Catch ex As Exception
-
       DA.SetData(0, ex.ToString)
-
     End Try
+
   End Sub
 #End Region
 

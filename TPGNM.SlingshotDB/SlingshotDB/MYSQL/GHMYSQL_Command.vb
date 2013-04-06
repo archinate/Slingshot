@@ -1,30 +1,13 @@
-﻿Imports Rhino
-Imports Rhino.Geometry
-Imports Rhino.Collections
-
-Imports Grasshopper
+﻿Imports Grasshopper
 Imports Grasshopper.Kernel
 Imports Grasshopper.Kernel.Data
 Imports Grasshopper.Kernel.Types
-
 Imports GH_IO
 Imports GH_IO.Serialization
 
-Imports MySql
-
 Imports System
-Imports System.IO
-Imports System.Xml
-Imports System.Xml.Linq
-Imports System.Linq
-Imports System.Data
-Imports System.Drawing
-Imports System.Reflection
-Imports System.Collections
-Imports System.Windows.Forms
-Imports Microsoft.VisualBasic
-Imports System.Collections.Generic
-Imports System.Runtime.InteropServices
+
+Imports MySql
 
 Public Class GHMYSQL_Command
   Inherits Grasshopper.Kernel.GH_Component
@@ -85,21 +68,21 @@ Public Class GHMYSQL_Command
         Dim mysqldata As New MySql.Data.MySqlClient.MySqlDataAdapter
         mysqlConnect.Open()
 
-
+        'Insert Command
         mysqldata.InsertCommand = New MySql.Data.MySqlClient.MySqlCommand(command, mysqlConnect)
         mysqldata.InsertCommand.ExecuteNonQuery()
 
+        'Close the connection
         mysqlConnect.Close()
 
+        'Display success
         DA.SetData(0, "Command executed!")
       End If
 
-
     Catch ex As Exception
-
       DA.SetData(0, ex.ToString)
-
     End Try
+
   End Sub
 
 #End Region

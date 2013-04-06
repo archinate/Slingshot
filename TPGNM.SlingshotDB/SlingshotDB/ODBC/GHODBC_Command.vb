@@ -1,6 +1,5 @@
-﻿Imports Rhino
-Imports Rhino.Geometry
-Imports Rhino.Collections
+﻿Imports System
+Imports System.Data.Odbc
 
 Imports Grasshopper
 Imports Grasshopper.Kernel
@@ -9,22 +8,6 @@ Imports Grasshopper.Kernel.Types
 
 Imports GH_IO
 Imports GH_IO.Serialization
-
-Imports System
-Imports System.IO
-Imports System.Xml
-Imports System.Xml.Linq
-Imports System.Linq
-Imports System.Data
-Imports System.Drawing
-Imports System.Reflection
-Imports System.Collections
-Imports System.Windows.Forms
-Imports Microsoft.VisualBasic
-Imports System.Collections.Generic
-Imports System.Runtime.InteropServices
-
-Imports System.Data.Odbc
 
 Public Class GHODBC_Command
   Inherits Grasshopper.Kernel.GH_Component
@@ -83,21 +66,23 @@ Public Class GHODBC_Command
 
       If connect = True Then
 
+        'Connect to ODBC
         Dim dbConnect As OdbcConnection = New OdbcConnection(cstring)
         dbConnect.Open()
 
+        'Execute command
         Dim dbCommand As OdbcCommand = New OdbcCommand(command, dbConnect)
         dbCommand.ExecuteNonQuery()
         dbConnect.Close()
 
+        'Return success message
         DA.SetData(0, "Executed database command: " & command)
       End If
 
     Catch ex As Exception
-
       DA.SetData(0, ex.ToString)
-
     End Try
+
   End Sub
 #End Region
 

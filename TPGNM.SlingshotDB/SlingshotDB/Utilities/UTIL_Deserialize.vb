@@ -6,24 +6,10 @@ Imports Grasshopper
 Imports Grasshopper.Kernel
 Imports Grasshopper.Kernel.Data
 Imports Grasshopper.Kernel.Types
-
 Imports GH_IO
 Imports GH_IO.Serialization
 
 Imports System
-Imports System.IO
-Imports System.Xml
-Imports System.Xml.Linq
-Imports System.Linq
-Imports System.Data
-Imports System.Drawing
-Imports System.Reflection
-Imports System.Collections
-Imports System.Windows.Forms
-Imports Microsoft.VisualBasic
-Imports System.Collections.Generic
-Imports System.Runtime.InteropServices
-
 
 Public Class UTIL_Deserialize
   Inherits Grasshopper.Kernel.GH_Component

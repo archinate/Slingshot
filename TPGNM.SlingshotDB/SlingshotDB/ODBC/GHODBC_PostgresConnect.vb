@@ -1,29 +1,11 @@
-﻿Imports Rhino
-Imports Rhino.Geometry
-Imports Rhino.Collections
+﻿Imports System
 
 Imports Grasshopper
 Imports Grasshopper.Kernel
 Imports Grasshopper.Kernel.Data
 Imports Grasshopper.Kernel.Types
-
 Imports GH_IO
 Imports GH_IO.Serialization
-
-Imports System
-Imports System.IO
-Imports System.Xml
-Imports System.Xml.Linq
-Imports System.Linq
-Imports System.Data
-Imports System.Drawing
-Imports System.Reflection
-Imports System.Collections
-Imports System.Windows.Forms
-Imports Microsoft.VisualBasic
-Imports System.Collections.Generic
-Imports System.Runtime.InteropServices
-
 
 Public Class GHMYSQL_PostgresConnect
   Inherits Grasshopper.Kernel.GH_Component
@@ -95,16 +77,14 @@ Public Class GHMYSQL_PostgresConnect
       Dim connectionstring As String
       If db = "" Then
         connectionstring = "Driver={PostgreSQL}; Server=" & server & "; Port=" & port & "; Uid=" & uid & "; Pwd=" & pass & "; commandtimeout=" & cmdtime & "; Timeout=" & contime
-
       Else
         connectionstring = "Driver={PostgreSQL}; Server=" & server & "; Port=" & port & "; Uid=" & uid & "; Database=" & db & "; Pwd=" & pass & "; commandtimeout=" & cmdtime & "; Timeout=" & contime
-
       End If
       DA.SetData(0, connectionstring)
-
     Catch ex As Exception
 
     End Try
+
   End Sub
 #End Region
 

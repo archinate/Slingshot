@@ -1,28 +1,11 @@
-﻿Imports Rhino
-Imports Rhino.Geometry
-Imports Rhino.Collections
-
-Imports Grasshopper
+﻿Imports Grasshopper
 Imports Grasshopper.Kernel
 Imports Grasshopper.Kernel.Data
 Imports Grasshopper.Kernel.Types
-
 Imports GH_IO
 Imports GH_IO.Serialization
 
 Imports System
-Imports System.IO
-Imports System.Xml
-Imports System.Xml.Linq
-Imports System.Linq
-Imports System.Data
-Imports System.Drawing
-Imports System.Reflection
-Imports System.Collections
-Imports System.Windows.Forms
-Imports Microsoft.VisualBasic
-Imports System.Collections.Generic
-Imports System.Runtime.InteropServices
 
 Imports System.Data.SQLite
 
@@ -89,6 +72,7 @@ Public Class GHSQLite_Command
       If ctoggle = True Then
         Dim filepath As String = path + "\" + database + ".s3db"
 
+        'Connect to SQLite
         Dim SQLConnect As New SQLite.SQLiteConnection()
         Dim SQLCommand As SQLiteCommand
 
