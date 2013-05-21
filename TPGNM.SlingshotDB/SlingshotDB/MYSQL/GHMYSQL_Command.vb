@@ -37,8 +37,8 @@ Public Class GHMYSQL_Command
 #Region "Inputs/Outputs"
 
   Protected Overrides Sub RegisterInputParams(ByVal pManager As Grasshopper.Kernel.GH_Component.GH_InputParamManager)
-    pManager.AddTextParameter("Connect String", "CString", "A MySQL connection string.", GH_ParamAccess.item)
     pManager.AddBooleanParameter("Connect Toggle", "CToggle", "Set to 'True' to connect.", False, GH_ParamAccess.item)
+    pManager.AddTextParameter("Connect String", "CString", "A MySQL connection string.", GH_ParamAccess.item)
     pManager.AddTextParameter("Command", "Command", "A MySQL command.", GH_ParamAccess.item)
 
   End Sub
@@ -52,15 +52,17 @@ Public Class GHMYSQL_Command
   End Sub
 
   Protected Overrides Sub SolveInstance(ByVal DA As Grasshopper.Kernel.IGH_DataAccess)
+
+
+    Dim cstring As String = Nothing
+    Dim connect As Boolean = False
+    Dim command As String = Nothing
+
+    DA.GetData(Of String)(0, cstring)
+    DA.GetData(Of Boolean)(1, connect)
+    DA.GetData(Of String)(2, command)
+
     Try
-      Dim cstring As String = Nothing
-      Dim connect As Boolean = False
-      Dim command As String = Nothing
-
-      DA.GetData(Of String)(0, cstring)
-      DA.GetData(Of Boolean)(1, connect)
-      DA.GetData(Of String)(2, command)
-
       If connect = True Then
         'Establish MySQL Database Connection
         Dim ConnectionString As String = cstring
@@ -78,6 +80,7 @@ Public Class GHMYSQL_Command
         'Display success
         DA.SetData(0, "Command executed!")
       End If
+
 
     Catch ex As Exception
       DA.SetData(0, ex.ToString)
