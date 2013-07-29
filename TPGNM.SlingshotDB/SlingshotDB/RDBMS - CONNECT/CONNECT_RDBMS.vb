@@ -136,7 +136,7 @@ Public Class CONNECT_RDBMS
           connectionstring = "Driver={Microsoft ODBC for Oracle};Server=" & server & "; Port=" & port & "; Uid=" & uid & "; Database=" & db & "; Pwd=" & pass & "; commandtimeout=" & cmdtime & "; Timeout=" & contime
         End If
 
-      ElseIf connector = "Postgres" Then
+      ElseIf connector = "PostgreSQL" Then
         If db = "" Then
           connectionstring = "Driver={PostgreSQL}; Server=" & server & "; Port=" & port & "; Uid=" & uid & "; Pwd=" & pass & "; commandtimeout=" & cmdtime & "; Timeout=" & contime
         Else

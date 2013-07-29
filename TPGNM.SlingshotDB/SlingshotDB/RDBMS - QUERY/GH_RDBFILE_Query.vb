@@ -7,15 +7,16 @@ Imports GH_IO.Serialization
 
 Imports System
 
-Public Class GHRDBMS_Command
+Public Class GHRDBFILE_Query
   Inherits Grasshopper.Kernel.GH_Component
 
-  Private _rdbms As String = "MySQL"
+  Private _rdbms As String = "SQLite"
+  Private _path As String = ""
 
 #Region "Register"
   'Methods
   Public Sub New()
-    MyBase.New("RDBMS Command", "Command", "Send a command to a Relational Database Management System", "Slingshot!", "RDBMS")
+    MyBase.New("RDB File Query", "Query", "Send a query to a Relational Database File", "Slingshot!", "RDBMS")
   End Sub
 
   'Exposure parameter (line dividers)
@@ -28,14 +29,14 @@ Public Class GHRDBMS_Command
   'GUID generator http://www.guidgenerator.com/online-guid-generator.aspx
   Public Overrides ReadOnly Property ComponentGuid As System.Guid
     Get
-      Return New Guid("{dc556398-9fac-4bc4-9bc3-77632e8ca902}")
+      Return New Guid("{a1b19301-1df9-4e12-8ead-712eee4f33c6}")
     End Get
   End Property
 
   'Icon 24x24
   Protected Overrides ReadOnly Property Internal_Icon_24x24 As System.Drawing.Bitmap
     Get
-      Return My.Resources.GHMYSQL_Command
+      Return My.Resources.GHOLEDB_Query
     End Get
   End Property
 #End Region
@@ -44,7 +45,7 @@ Public Class GHRDBMS_Command
   'Append Component menues.
   Public Overrides Function AppendMenuItems(menu As Windows.Forms.ToolStripDropDown) As Boolean
 
-    Menu_AppendItem(menu, "Connector Settings...", AddressOf Menu_Settings)
+    Menu_AppendItem(menu, "Database Settings...", AddressOf Menu_Settings)
 
     Return True
   End Function
@@ -53,9 +54,10 @@ Public Class GHRDBMS_Command
   Private Sub Menu_Settings(ByVal sender As Object, ByVal e As EventArgs)
 
     'Open Settings dialogue
-    Dim m_settingsdialogue As New form_DBConnector(_rdbms)
+    Dim m_settingsdialogue As New form_FileSelect(_rdbms, _path)
     m_settingsdialogue.ShowDialog()
-    _rdbms = m_settingsdialogue.Connector
+    _rdbms = m_settingsdialogue.DatabaseType
+    _path = m_settingsdialogue.FilePath
 
     ExpireSolution(True)
 
@@ -63,13 +65,15 @@ Public Class GHRDBMS_Command
 
   'GH Writer
   Public Overrides Function Write(writer As GH_IWriter) As Boolean
-    writer.SetString("Connector", _rdbms)
+    writer.SetString("Database", _rdbms)
+    writer.SetString("Path", _path)
     Return MyBase.Write(writer)
   End Function
 
   'GH Reader
   Public Overrides Function Read(reader As GH_IReader) As Boolean
-    reader.TryGetString("Connector", _rdbms)
+    reader.TryGetString("Database", _rdbms)
+    reader.TryGetString("Path", _path)
     Return MyBase.Read(reader)
   End Function
 #End Region
@@ -77,10 +81,8 @@ Public Class GHRDBMS_Command
 #Region "Inputs/Outputs"
 
   Protected Overrides Sub RegisterInputParams(ByVal pManager As Grasshopper.Kernel.GH_Component.GH_InputParamManager)
-    pManager.AddTextParameter("Connect String", "CString", "A MySQL connection string.", GH_ParamAccess.item)
     pManager.AddBooleanParameter("Connect Toggle", "CToggle", "Set to 'True' to connect.", False, GH_ParamAccess.item)
-    pManager.AddTextParameter("Command", "Command", "A MySQL command.", GH_ParamAccess.item)
-
+    pManager.AddTextParameter("SQL Query", "Query", "A SQL query.", GH_ParamAccess.item)
   End Sub
 
 #End Region
@@ -89,37 +91,33 @@ Public Class GHRDBMS_Command
 
   Protected Overrides Sub RegisterOutputParams(ByVal pManager As Grasshopper.Kernel.GH_Component.GH_OutputParamManager)
     pManager.Register_GenericParam("Exceptions", "out", "Displays errors.")
+    pManager.Register_GenericParam("Query Data Set", "DataSet", "A DataSet of Results")
   End Sub
 
   Protected Overrides Sub SolveInstance(ByVal DA As Grasshopper.Kernel.IGH_DataAccess)
     Try
       Dim RDBMS As String = _rdbms
-      Dim cstring As String = Nothing
+      Dim filepath As String = _path
       Dim connect As Boolean = False
-      Dim command As String = Nothing
+      Dim query As String = Nothing
 
-      DA.GetData(Of String)(0, cstring)
-      DA.GetData(Of Boolean)(1, connect)
-      DA.GetData(Of String)(2, command)
+      DA.GetData(Of Boolean)(0, connect)
+      DA.GetData(Of String)(1, query)
 
-      Dim bool As Boolean = False
       If connect = True Then
+        Dim sqlDataSet As DataSet = Nothing
+
         Dim dbcommand As New clsRDBMS()
-        If RDBMS = "MySQL" Then
-          bool = dbcommand.MySQLCommand(cstring, command)
-        ElseIf RDBMS = "ODBC" Then
-          bool = dbcommand.ODBCCommand(cstring, command)
-        ElseIf RDBMS = "OLEDB" Then
-          bool = dbcommand.OLEDBCommand(cstring, command)
+        If RDBMS = "Access" Then
+          sqlDataSet = dbcommand.AccessQuery(filepath, query)
+        ElseIf RDBMS = "Excel" Then
+          sqlDataSet = dbcommand.ExcelQuery(filepath, query)
+        ElseIf RDBMS = "SQLite" Then
+          sqlDataSet = dbcommand.SQLiteQuery(filepath, query)
         End If
 
-        'Display success
-        If bool = True Then
-          DA.SetData(0, "Command executed!")
-        Else
-          DA.SetData(0, "No command executed...")
-        End If
-
+        'Set Data lists to outputs
+        DA.SetData(1, sqlDataSet)
       End If
 
     Catch ex As Exception
