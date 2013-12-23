@@ -101,6 +101,7 @@ Public Class UTIL_RhinoUnpack
 
       'Query database and get serialized XML
       Dim xml As New List(Of String)
+      Dim ghpaths As New List(Of String)
       Dim filepath As String = path + "\" + database + ".s3db"
 
       Dim SQLConnect As New SQLite.SQLiteConnection()
@@ -115,52 +116,62 @@ Public Class UTIL_RhinoUnpack
 
       'get serialized XML strings for objects with 'true' toggles
       If dePts = True Then
-        SQLCommand.CommandText = "SELECT object FROM points;"
+        SQLCommand.CommandText = "SELECT ghpath,object FROM points;"
         Dim SQLReader As SQLiteDataReader = SQLCommand.ExecuteReader()
         While SQLReader.Read()
-          Dim RowString As String = SQLReader(0)
+          Dim PathString As String = SQLReader(0)
+          Dim RowString As String = SQLReader(1)
           xml.Add(RowString)
+          ghpaths.Add(PathString)
         End While
         SQLReader.Close()
       End If
 
 
       If deCrv = True Then
-        SQLCommand.CommandText = "SELECT object FROM curves;"
+        SQLCommand.CommandText = "SELECT ghpath,object FROM curves;"
         Dim SQLReader As SQLiteDataReader = SQLCommand.ExecuteReader()
         While SQLReader.Read()
-          Dim RowString As String = SQLReader(0)
+          Dim PathString As String = SQLReader(0)
+          Dim RowString As String = SQLReader(1)
           xml.Add(RowString)
+          ghpaths.Add(PathString)
         End While
         SQLReader.Close()
       End If
 
       If deSrf = True Then
-        SQLCommand.CommandText = "SELECT object FROM surfaces;"
+        SQLCommand.CommandText = "SELECT ghpath,object FROM surfaces;"
         Dim SQLReader As SQLiteDataReader = SQLCommand.ExecuteReader()
         While SQLReader.Read()
-          Dim RowString As String = SQLReader(0)
+          Dim PathString As String = SQLReader(0)
+          Dim RowString As String = SQLReader(1)
           xml.Add(RowString)
+          ghpaths.Add(PathString)
         End While
         SQLReader.Close()
       End If
 
       If deBrp = True Then
-        SQLCommand.CommandText = "SELECT object FROM breps;"
+        SQLCommand.CommandText = "SELECT ghpath,object FROM breps;"
         Dim SQLReader As SQLiteDataReader = SQLCommand.ExecuteReader()
         While SQLReader.Read()
-          Dim RowString As String = SQLReader(0)
+          Dim PathString As String = SQLReader(0)
+          Dim RowString As String = SQLReader(1)
           xml.Add(RowString)
+          ghpaths.Add(PathString)
         End While
         SQLReader.Close()
       End If
 
       If deMsh = True Then
-        SQLCommand.CommandText = "SELECT object FROM meshes;"
+        SQLCommand.CommandText = "SELECT ghpath,object FROM meshes;"
         Dim SQLReader As SQLiteDataReader = SQLCommand.ExecuteReader()
         While SQLReader.Read()
-          Dim RowString As String = SQLReader(0)
+          Dim PathString As String = SQLReader(0)
+          Dim RowString As String = SQLReader(1)
           xml.Add(RowString)
+          ghpaths.Add(PathString)
         End While
         SQLReader.Close()
 
@@ -169,59 +180,72 @@ Public Class UTIL_RhinoUnpack
       SQLCommand.Dispose()
       SQLConnect.Close()
 
-
-      Dim myPts As New List(Of Point3d)
-      Dim myCrvs As New List(Of Curve)
-      Dim mySrfs As New List(Of Brep)
-      Dim myBrps As New List(Of Brep)
-      Dim myMshs As New List(Of Mesh)
+      Dim myPts As New DataTree(Of Point3d)
+      Dim myCrvs As New DataTree(Of Curve)
+      Dim mySrfs As New DataTree(Of Brep)
+      Dim myBrps As New DataTree(Of Brep)
+      Dim myMshs As New DataTree(Of Mesh)
 
       'Deserialize XML
       For i As Integer = 0 To xml.Count - 1
+        Dim ghpath As String = ghpaths(i)
+        Dim ghpatharr As String() = ghpath.Split("-")
+        Dim ghpathintarr As New List(Of Integer)
+        For Each gh As String In ghpatharr
+          ghpathintarr.Add(Convert.ToInt32(gh))
+        Next
+        Dim m_path As New GH_Path(ghpathintarr.ToArray())
 
         Dim chunk As New GH_IO.Serialization.GH_LooseChunk("xml")
         chunk.Deserialize_Xml(xml(i))
 
-        Dim chunkItems As List(Of GH_IO.Types.GH_Item) = chunk.Items
-        Dim chunkItem As GH_IO.Types.GH_Item = chunkItems(chunkItems.Count - 1)
-
         'Convert points
         If chunk.Name = "Point" Then
+          Dim chunkItems As List(Of GH_IO.Types.GH_Item) = chunk.Items
+          Dim chunkItem As GH_IO.Types.GH_Item = chunkItems(0)
           Dim ghpt As GH_IO.Types.GH_Point3D = chunkItem._point3d
           Dim myPoint As Point3d = New Point3d(ghpt.x, ghpt.y, ghpt.z)
-          myPts.Add(myPoint)
+          myPts.Add(myPoint, m_path)
 
           'Convert curves
         ElseIf chunk.Name = "Curve" Then
+          Dim chunkItems As List(Of GH_IO.Types.GH_Item) = chunk.Items
+          Dim chunkItem As GH_IO.Types.GH_Item = chunkItems(1)
           Dim myBytes() As Byte = chunkItem._bytearray
           Dim myCurve As Object = Kernel.GH_Convert.ByteArrayToCommonObject(Of Curve)(myBytes)
-          myCrvs.Add(myCurve)
+          myCrvs.Add(myCurve, m_path)
 
           'Convert surfaces
         ElseIf chunk.Name = "Surface" Then
+          Dim chunkItems As List(Of GH_IO.Types.GH_Item) = chunk.Items
+          Dim chunkItem As GH_IO.Types.GH_Item = chunkItems(0)
           Dim myBytes() As Byte = chunkItem._bytearray
           Dim mySurface As Object = Kernel.GH_Convert.ByteArrayToCommonObject(Of Brep)(myBytes)
-          mySrfs.Add(mySurface)
+          mySrfs.Add(mySurface, m_path)
 
           'Convert Breps
         ElseIf chunk.Name = "Brep" Then
+          Dim chunkItems As List(Of GH_IO.Types.GH_Item) = chunk.Items
+          Dim chunkItem As GH_IO.Types.GH_Item = chunkItems(0)
           Dim myBytes() As Byte = chunkItem._bytearray
           Dim myBrep As Object = Kernel.GH_Convert.ByteArrayToCommonObject(Of Brep)(myBytes)
-          myBrps.Add(myBrep)
+          myBrps.Add(myBrep, m_path)
 
           'Convert Meshes
         ElseIf chunk.Name = "Mesh" Then
+          Dim chunkItems As List(Of GH_IO.Types.GH_Item) = chunk.Items
+          Dim chunkItem As GH_IO.Types.GH_Item = chunkItems(0)
           Dim myBytes() As Byte = chunkItem._bytearray
           Dim myMesh As Object = Kernel.GH_Convert.ByteArrayToCommonObject(Of Mesh)(myBytes)
-          myMshs.Add(myMesh)
+          myMshs.Add(myMesh, m_path)
         End If
       Next
 
-      DA.SetDataList(1, myPts)
-      DA.SetDataList(2, myCrvs)
-      DA.SetDataList(3, mySrfs)
-      DA.SetDataList(4, myBrps)
-      DA.SetDataList(5, myMshs)
+      DA.SetDataTree(1, myPts)
+      DA.SetDataTree(2, myCrvs)
+      DA.SetDataTree(3, mySrfs)
+      DA.SetDataTree(4, myBrps)
+      DA.SetDataTree(5, myMshs)
 
     Catch ex As Exception
       DA.SetData(0, ex.ToString)

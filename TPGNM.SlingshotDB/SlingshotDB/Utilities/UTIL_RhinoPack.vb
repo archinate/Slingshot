@@ -53,7 +53,7 @@ Public Class UTIL_RhinoPack
     pManager.AddTextParameter("Directory Path", "Directory", "The directory for the SQLite database file.", GH_ParamAccess.item)
     pManager.AddTextParameter("Database", "Database", "The name of the database file.", GH_ParamAccess.item)
     pManager.AddBooleanParameter("Truncate Tables", "Truncate", "Truncate tables in file before filling?", GH_ParamAccess.item, False)
-    pManager.AddGenericParameter("Geometry Objects", "Objects", "Geometry to serialize. Supports Points, Curves, Surfaces, BReps, and Meshes).", GH_ParamAccess.list)
+    pManager.AddGenericParameter("Geometry Objects", "Objects", "Geometry to serialize. Supports Points, Curves, Surfaces, BReps, and Meshes).", GH_ParamAccess.tree)
 
   End Sub
 
@@ -71,88 +71,111 @@ Public Class UTIL_RhinoPack
     Dim path As String = Nothing
     Dim database As String = Nothing
     Dim truncate As Boolean = False
-    Dim objList As New List(Of Object)
+    Dim objTree As New Grasshopper.Kernel.Data.GH_Structure(Of IGH_Goo)
 
     DA.GetData(Of Boolean)(0, ctoggle)
     DA.GetData(Of String)(1, path)
     DA.GetData(Of String)(2, database)
     DA.GetData(Of Boolean)(3, truncate)
-    DA.GetDataList(Of Object)(4, objList)
+    DA.GetDataTree(Of IGH_Goo)(4, objTree)
 
     If ctoggle = True Then
 
       Try
         'serialized string lists
         Dim pointXml As New List(Of String)
+        Dim pointpath As New List(Of String)
+
         Dim curveXml As New List(Of String)
+        Dim curvepath As New List(Of String)
+
         Dim surfaceXml As New List(Of String)
+        Dim surfacepath As New List(Of String)
+
         Dim brepXml As New List(Of String)
+        Dim breppath As New List(Of String)
+
         Dim meshXml As New List(Of String)
+        Dim meshpath As New List(Of String)
 
-        Dim obj As Object
-        For Each obj In objList
+        For i As Integer = 0 To objTree.Branches.Count - 1
+          'Get branch address, compose as string
+          Dim tpath As GH_Path = objTree.Path(i)
+          Dim fpath As String = tpath.ToString
+          fpath = fpath.Replace("{", "")
+          fpath = fpath.Replace(";", "-")
+          fpath = fpath.Replace("}", "")
+          Dim dtn As String = fpath.ToString
 
-          'check geometry type
-          If obj.GetType.FullName = "Grasshopper.Kernel.Types.GH_Point" Then
-            Dim xml As String
-            Dim myobj As Kernel.Types.GH_Point = obj
-            Dim mypoint As Point3d = myobj.Value
-            Dim pointObj As New Kernel.Types.GH_Point(mypoint)
-            Dim chunk As New GH_IO.Serialization.GH_LooseChunk("Point")
-            pointObj.Write(chunk)
+          For j As Integer = 0 To objTree.Branch(i).Count - 1
+            Dim obj As Object = objTree.Branch(i).Item(j)
+            'check geometry type
+            If obj.GetType.FullName = "Grasshopper.Kernel.Types.GH_Point" Then
+              Dim xml As String
+              Dim myobj As Kernel.Types.GH_Point = obj
+              Dim mypoint As Point3d = myobj.Value
+              Dim pointObj As New Kernel.Types.GH_Point(mypoint)
+              Dim chunk As New GH_IO.Serialization.GH_LooseChunk("Point")
+              pointObj.Write(chunk)
 
-            xml = chunk.Serialize_Xml()
-            pointXml.Add(xml)
-          End If
+              xml = chunk.Serialize_Xml()
+              pointXml.Add(xml)
+              pointpath.Add(dtn)
+            End If
 
-          If obj.GetType.FullName = "Grasshopper.Kernel.Types.GH_Brep" Then
-            Dim xml As String
-            Dim myobj As Kernel.Types.GH_Brep = obj
-            Dim mybrep As Brep = myobj.Value
-            Dim brepObj As New Kernel.Types.GH_Brep(mybrep)
-            Dim chunk As New GH_IO.Serialization.GH_LooseChunk("Brep")
-            brepObj.Write(chunk)
+            If obj.GetType.FullName = "Grasshopper.Kernel.Types.GH_Brep" Then
+              Dim xml As String
+              Dim myobj As Kernel.Types.GH_Brep = obj
+              Dim mybrep As Brep = myobj.Value
+              Dim brepObj As New Kernel.Types.GH_Brep(mybrep)
+              Dim chunk As New GH_IO.Serialization.GH_LooseChunk("Brep")
+              brepObj.Write(chunk)
 
-            xml = chunk.Serialize_Xml()
-            brepXml.Add(xml)
-          End If
+              xml = chunk.Serialize_Xml()
+              brepXml.Add(xml)
+              breppath.Add(dtn)
+            End If
 
-          If obj.GetType.FullName = "Grasshopper.Kernel.Types.GH_Curve" Then
-            Dim xml As String
-            Dim myobj As Kernel.Types.GH_Curve = obj
-            Dim mycurve As Curve = myobj.Value
-            Dim curveObj As New Kernel.Types.GH_Curve(mycurve)
-            Dim chunk As New GH_IO.Serialization.GH_LooseChunk("Curve")
-            curveObj.Write(chunk)
+            If obj.GetType.FullName = "Grasshopper.Kernel.Types.GH_Curve" Then
+              Dim xml As String
+              Dim myobj As Kernel.Types.GH_Curve = obj
+              Dim mycurve As Curve = myobj.Value
+              Dim curveObj As New Kernel.Types.GH_Curve(mycurve)
+              Dim chunk As New GH_IO.Serialization.GH_LooseChunk("Curve")
+              curveObj.Write(chunk)
 
-            xml = chunk.Serialize_Xml()
-            curveXml.Add(xml)
-          End If
+              xml = chunk.Serialize_Xml()
+              curveXml.Add(xml)
+              curvepath.Add(dtn)
+            End If
 
-          If obj.GetType.FullName = "Grasshopper.Kernel.Types.GH_Surface" Then
-            Dim xml As String
-            Dim myobj As Kernel.Types.GH_Surface = obj
-            Dim mysurf As Brep = myobj.Value
-            Dim surfaceObj As New Kernel.Types.GH_Brep(mysurf)
-            Dim chunk As New GH_IO.Serialization.GH_LooseChunk("Surface")
-            surfaceObj.Write(chunk)
+            If obj.GetType.FullName = "Grasshopper.Kernel.Types.GH_Surface" Then
+              Dim xml As String
+              Dim myobj As Kernel.Types.GH_Surface = obj
+              Dim mysurf As Brep = myobj.Value
+              Dim surfaceObj As New Kernel.Types.GH_Brep(mysurf)
+              Dim chunk As New GH_IO.Serialization.GH_LooseChunk("Surface")
+              surfaceObj.Write(chunk)
 
-            xml = chunk.Serialize_Xml()
-            surfaceXml.Add(xml)
-          End If
+              xml = chunk.Serialize_Xml()
+              surfaceXml.Add(xml)
+              surfacepath.Add(dtn)
+            End If
 
-          If obj.GetType.FullName = "Grasshopper.Kernel.Types.GH_Mesh" Then
-            Dim xml As String
-            Dim myobj As Kernel.Types.GH_Mesh = obj
-            Dim mymesh As Mesh = myobj.Value
-            Dim meshObj As New Kernel.Types.GH_Mesh(mymesh)
-            Dim chunk As New GH_IO.Serialization.GH_LooseChunk("Mesh")
-            meshObj.Write(chunk)
+            If obj.GetType.FullName = "Grasshopper.Kernel.Types.GH_Mesh" Then
+              Dim xml As String
+              Dim myobj As Kernel.Types.GH_Mesh = obj
+              Dim mymesh As Mesh = myobj.Value
+              Dim meshObj As New Kernel.Types.GH_Mesh(mymesh)
+              Dim chunk As New GH_IO.Serialization.GH_LooseChunk("Mesh")
+              meshObj.Write(chunk)
 
-            xml = chunk.Serialize_Xml()
-            meshXml.Add(xml)
-          End If
+              xml = chunk.Serialize_Xml()
+              meshXml.Add(xml)
+              meshpath.Add(dtn)
+            End If
 
+          Next
         Next
 
         'Write lists of serialized geometry to SQLite File
@@ -172,11 +195,11 @@ Public Class UTIL_RhinoPack
         SQLConnect.Open()
 
         'Table creation strings
-        Dim pointsTb As String = "CREATE TABLE IF NOT EXISTS points(id INTEGER PRIMARY KEY, object TEXT);"
-        Dim curvesTb As String = "CREATE TABLE IF NOT EXISTS curves(id INTEGER PRIMARY KEY, object TEXT);"
-        Dim surfacesTb As String = "CREATE TABLE IF NOT EXISTS surfaces(id INTEGER PRIMARY KEY, object TEXT);"
-        Dim brepsTb As String = "CREATE TABLE IF NOT EXISTS breps(id INTEGER PRIMARY KEY, object TEXT);"
-        Dim meshesTb As String = "CREATE TABLE IF NOT EXISTS meshes(id INTEGER PRIMARY KEY, object TEXT);"
+        Dim pointsTb As String = "CREATE TABLE IF NOT EXISTS points(id INTEGER PRIMARY KEY, ghpath TEXT, object TEXT);"
+        Dim curvesTb As String = "CREATE TABLE IF NOT EXISTS curves(id INTEGER PRIMARY KEY, ghpath TEXT, object TEXT);"
+        Dim surfacesTb As String = "CREATE TABLE IF NOT EXISTS surfaces(id INTEGER PRIMARY KEY, ghpath TEXT, object TEXT);"
+        Dim brepsTb As String = "CREATE TABLE IF NOT EXISTS breps(id INTEGER PRIMARY KEY, ghpath TEXT, object TEXT);"
+        Dim meshesTb As String = "CREATE TABLE IF NOT EXISTS meshes(id INTEGER PRIMARY KEY, ghpath TEXT, object TEXT);"
 
         SQLCommand = SQLConnect.CreateCommand
 
@@ -236,43 +259,41 @@ Public Class UTIL_RhinoPack
         End If
 
 
-        Dim str As String
-
         'fill points table
-        For Each str In pointXml
-          Dim insertStr As String = "INSERT INTO points(object) VALUES(" & "'" & str & "'" & ");"
+        For i As Integer = 0 To pointXml.Count - 1
+          Dim insertStr As String = "INSERT INTO points(ghpath,object) VALUES(" & "'" & pointpath(i) & "'" & "," & "'" & pointXml(i) & "'" & ");"
           SQLCommand.CommandText = insertStr
           SQLCommand.ExecuteNonQuery()
 
         Next
 
         'fill curves table
-        For Each str In curveXml
-          Dim insertStr As String = "INSERT INTO curves(object) VALUES(" & "'" & str & "'" & ");"
+        For i As Integer = 0 To curveXml.Count - 1
+          Dim insertStr As String = "INSERT INTO curves(ghpath,object) VALUES(" & "'" & curvepath(i) & "'" & "," & "'" & curveXml(i) & "'" & ");"
           SQLCommand.CommandText = insertStr
           SQLCommand.ExecuteNonQuery()
 
         Next
 
         'fill surfaces table
-        For Each str In surfaceXml
-          Dim insertStr As String = "INSERT INTO surfaces(object) VALUES(" & "'" & str & "'" & ");"
+        For i As Integer = 0 To surfaceXml.Count - 1
+          Dim insertStr As String = "INSERT INTO surfaces(ghpath,object) VALUES(" & "'" & surfacepath(i) & "'" & "," & "'" & surfaceXml(i) & "'" & ");"
           SQLCommand.CommandText = insertStr
           SQLCommand.ExecuteNonQuery()
 
         Next
 
         'fill breps table
-        For Each str In brepXml
-          Dim insertStr As String = "INSERT INTO breps(object) VALUES(" & "'" & str & "'" & ");"
+        For i As Integer = 0 To brepXml.Count - 1
+          Dim insertStr As String = "INSERT INTO breps(ghpath,object) VALUES(" & "'" & breppath(i) & "'" & "," & "'" & brepXml(i) & "'" & ");"
           SQLCommand.CommandText = insertStr
           SQLCommand.ExecuteNonQuery()
 
         Next
 
         'fill meshes table
-        For Each str In meshXml
-          Dim insertStr As String = "INSERT INTO meshes(object) VALUES(" & "'" & str & "'" & ");"
+        For i As Integer = 0 To meshXml.Count - 1
+          Dim insertStr As String = "INSERT INTO meshes(ghpath,object) VALUES(" & "'" & meshpath(i) & "'" & "," & "'" & meshXml(i) & "'" & ");"
           SQLCommand.CommandText = insertStr
           SQLCommand.ExecuteNonQuery()
 

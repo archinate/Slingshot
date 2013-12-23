@@ -77,15 +77,15 @@ Public Class GHRDBMS_Query
 #Region "Inputs/Outputs"
 
   Protected Overrides Sub RegisterInputParams(ByVal pManager As Grasshopper.Kernel.GH_Component.GH_InputParamManager)
-    pManager.AddBooleanParameter("Connect Toggle", "CToggle", "Set to 'True' to connect.", False, GH_ParamAccess.item)
+
     pManager.AddTextParameter("Connect String", "CString", "A MySQL connection string.", GH_ParamAccess.item)
+    pManager.AddBooleanParameter("Connect Toggle", "CToggle", "Set to 'True' to connect.", False, GH_ParamAccess.item)
     pManager.AddTextParameter("RDBMS Query", "Query", "A SQL query.", GH_ParamAccess.item)
-    pManager.AddIntegerParameter("Column Number", "Column", "The column number to output.", 0, GH_ParamAccess.item)
   End Sub
 
   Protected Overrides Sub RegisterOutputParams(ByVal pManager As Grasshopper.Kernel.GH_Component.GH_OutputParamManager)
     pManager.Register_GenericParam("Exceptions", "out", "Displays errors.")
-    pManager.Register_GenericParam("Query Data Set", "DataSet", "A DataSet of Results")
+    pManager.Register_GenericParam("Query Data Set", "DataSet", "A set of results represented as a tree.")
   End Sub
 
 #End Region
@@ -98,12 +98,10 @@ Public Class GHRDBMS_Query
       Dim cstring As String = Nothing
       Dim toggle As Boolean = False
       Dim query As String = Nothing
-      Dim column As Integer = Nothing
 
       DA.GetData(Of String)(0, cstring)
       DA.GetData(Of Boolean)(1, toggle)
       DA.GetData(Of String)(2, query)
-      DA.GetData(Of Integer)(3, column)
 
       If toggle = True Then
         Dim sqlDataSet As DataSet = Nothing
@@ -117,8 +115,35 @@ Public Class GHRDBMS_Query
           sqlDataSet = dbcommand.OLEDBQuery(cstring, query)
         End If
 
+        Dim ds As DataSet = sqlDataSet
+        Dim items As New DataTree(Of String)
+
+
+        For i As Int32 = 0 To ds.Tables.Count - 1
+          'DataTable
+          Dim dt As DataTable = ds.Tables(i)
+
+          'Iterate through datatable
+          For j As Int32 = 0 To dt.Columns.Count - 1
+            For k As Int32 = 0 To dt.Rows.Count - 1
+
+              Dim path As New GH_Path()
+              Dim p As GH_Path = path.AppendElement(i)
+              path = p
+              p = path.AppendElement(j)
+              path = p
+
+              'Value
+              Dim value As String = dt.Rows(k)(j)
+
+              items.Add(value, path)
+
+            Next
+          Next
+        Next
+
         'Return a DataSet
-        DA.SetData(1, sqlDataSet)
+        DA.SetDataTree(1, items)
 
       End If
 

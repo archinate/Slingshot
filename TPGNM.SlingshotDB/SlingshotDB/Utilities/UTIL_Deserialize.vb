@@ -84,35 +84,42 @@ Public Class UTIL_Deserialize
       Dim chunk As New GH_IO.Serialization.GH_LooseChunk("xml")
       chunk.Deserialize_Xml(xml(i))
 
-      Dim chunkItems As List(Of GH_IO.Types.GH_Item) = chunk.Items
-      Dim chunkItem As GH_IO.Types.GH_Item = chunkItems(chunkItems.Count - 1)
-
       'Convert points
       If chunk.Name = "Point" Then
+        Dim chunkItems As List(Of GH_IO.Types.GH_Item) = chunk.Items
+        Dim chunkItem As GH_IO.Types.GH_Item = chunkItems(0)
         Dim ghpt As GH_IO.Types.GH_Point3D = chunkItem._point3d
         Dim myPoint As Point3d = New Point3d(ghpt.x, ghpt.y, ghpt.z)
         myPts.Add(myPoint)
 
         'Convert curves
       ElseIf chunk.Name = "Curve" Then
+        Dim chunkItems As List(Of GH_IO.Types.GH_Item) = chunk.Items
+        Dim chunkItem As GH_IO.Types.GH_Item = chunkItems(1)
         Dim myBytes() As Byte = chunkItem._bytearray
         Dim myCurve As Object = Kernel.GH_Convert.ByteArrayToCommonObject(Of Curve)(myBytes)
         myCrvs.Add(myCurve)
 
         'Convert surfaces
       ElseIf chunk.Name = "Surface" Then
+        Dim chunkItems As List(Of GH_IO.Types.GH_Item) = chunk.Items
+        Dim chunkItem As GH_IO.Types.GH_Item = chunkItems(0)
         Dim myBytes() As Byte = chunkItem._bytearray
         Dim mySurface As Object = Kernel.GH_Convert.ByteArrayToCommonObject(Of Brep)(myBytes)
         mySrfs.Add(mySurface)
 
         'Convert Breps
       ElseIf chunk.Name = "Brep" Then
+        Dim chunkItems As List(Of GH_IO.Types.GH_Item) = chunk.Items
+        Dim chunkItem As GH_IO.Types.GH_Item = chunkItems(0)
         Dim myBytes() As Byte = chunkItem._bytearray
         Dim myBrep As Object = Kernel.GH_Convert.ByteArrayToCommonObject(Of Brep)(myBytes)
         myBrps.Add(myBrep)
 
         'Convert Meshes
       ElseIf chunk.Name = "Mesh" Then
+        Dim chunkItems As List(Of GH_IO.Types.GH_Item) = chunk.Items
+        Dim chunkItem As GH_IO.Types.GH_Item = chunkItems(0)
         Dim myBytes() As Byte = chunkItem._bytearray
         Dim myMesh As Object = Kernel.GH_Convert.ByteArrayToCommonObject(Of Mesh)(myBytes)
         myMshs.Add(myMesh)

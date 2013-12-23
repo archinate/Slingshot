@@ -91,7 +91,7 @@ Public Class GHRDBFILE_Query
 
   Protected Overrides Sub RegisterOutputParams(ByVal pManager As Grasshopper.Kernel.GH_Component.GH_OutputParamManager)
     pManager.Register_GenericParam("Exceptions", "out", "Displays errors.")
-    pManager.Register_GenericParam("Query Data Set", "DataSet", "A DataSet of Results")
+    pManager.Register_GenericParam("Query DataSet", "DataSet", "A set of results represented as a tree.")
   End Sub
 
   Protected Overrides Sub SolveInstance(ByVal DA As Grasshopper.Kernel.IGH_DataAccess)
@@ -116,8 +116,34 @@ Public Class GHRDBFILE_Query
           sqlDataSet = dbcommand.SQLiteQuery(filepath, query)
         End If
 
+        Dim ds As DataSet = sqlDataSet
+        Dim items As New DataTree(Of String)
+
+
+        For i As Int32 = 0 To ds.Tables.Count - 1
+          'DataTable
+          Dim dt As DataTable = ds.Tables(i)
+
+          'Iterate through datatable
+          For j As Int32 = 0 To dt.Columns.Count - 1
+            For k As Int32 = 0 To dt.Rows.Count - 1
+
+              Dim path As New GH_Path()
+              Dim p As GH_Path = path.AppendElement(i)
+              path = p
+              p = path.AppendElement(j)
+              path = p
+
+              'Value
+              Dim value As String = dt.Rows(k)(j)
+
+              items.Add(value, path)
+
+            Next
+          Next
+        Next
         'Set Data lists to outputs
-        DA.SetData(1, sqlDataSet)
+        DA.SetDataTree(1, items)
       End If
 
     Catch ex As Exception

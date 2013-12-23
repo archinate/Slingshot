@@ -10,7 +10,7 @@ Imports System
 Public Class GHRDBFILE_Command
   Inherits Grasshopper.Kernel.GH_Component
 
-  Private _connector As String = "MySQL"
+  Private _connector As String = "SQLite"
   Private _path As String = ""
 
 #Region "Register"

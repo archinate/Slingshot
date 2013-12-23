@@ -3,8 +3,6 @@ C:\Users\nmiller\Documents\GitHub\Slingshot\TPGNM.SlingshotDB\SlingshotDB\bin\Re
 C:\Users\nmiller\Documents\GitHub\Slingshot\TPGNM.SlingshotDB\SlingshotDB\bin\Release\SlingshotDB.xml
 C:\Users\nmiller\Documents\GitHub\Slingshot\TPGNM.SlingshotDB\SlingshotDB\bin\Release\MySql.Data.dll
 C:\Users\nmiller\Documents\GitHub\Slingshot\TPGNM.SlingshotDB\SlingshotDB\bin\Release\System.Data.SQLite.dll
-C:\Users\nmiller\Documents\GitHub\Slingshot\TPGNM.SlingshotDB\SlingshotDB\bin\Release\System.Data.SQLite.pdb
-C:\Users\nmiller\Documents\GitHub\Slingshot\TPGNM.SlingshotDB\SlingshotDB\bin\Release\System.Data.SQLite.xml
 C:\Users\nmiller\Documents\GitHub\Slingshot\TPGNM.SlingshotDB\SlingshotDB\obj\Release\TPGNM_SlingshotDB.vbprojResolveAssemblyReference.cache
 C:\Users\nmiller\Documents\GitHub\Slingshot\TPGNM.SlingshotDB\SlingshotDB\obj\Release\UI\form_Connect.baml
 C:\Users\nmiller\Documents\GitHub\Slingshot\TPGNM.SlingshotDB\SlingshotDB\obj\Release\UI\form_DBConnector.baml

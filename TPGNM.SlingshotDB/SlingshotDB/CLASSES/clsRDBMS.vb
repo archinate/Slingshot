@@ -147,7 +147,7 @@ Public Class clsRDBMS
   ''' <remarks></remarks>
   Public Function AccessCommand(ByRef p As String, ByRef c As String) As Boolean
     Try
-
+      Return False
     Catch ex As Exception
       Return False
     End Try
@@ -306,7 +306,7 @@ Public Class clsRDBMS
   ''' <remarks></remarks>
   Public Function AccessQuery(ByRef p As String, ByRef q As String) As DataSet
     Try
-
+      Return Nothing
     Catch ex As Exception
       Return Nothing
     End Try
