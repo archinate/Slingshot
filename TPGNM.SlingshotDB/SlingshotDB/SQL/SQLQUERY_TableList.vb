@@ -9,7 +9,9 @@ Imports System
 Imports System.IO
 
 Public Class SQLQUERY_TableList
-    Inherits Grasshopper.Kernel.GH_Component
+  Inherits Grasshopper.Kernel.GH_Component
+
+  Private _connector As String = "MySQL"
 
 #Region "Register"
   'Methods
@@ -39,6 +41,40 @@ Public Class SQLQUERY_TableList
   End Property
 #End Region
 
+#Region "Menu Items"
+  'Append Component menues.
+  Public Overrides Function AppendMenuItems(menu As Windows.Forms.ToolStripDropDown) As Boolean
+
+    Menu_AppendItem(menu, "Connector Settings...", AddressOf Menu_Settings)
+
+    Return True
+  End Function
+
+  'On menu item click...
+  Private Sub Menu_Settings(ByVal sender As Object, ByVal e As EventArgs)
+
+    'Open Settings dialogue
+    Dim m_settingsdialogue As New form_DBSelect(_connector)
+    m_settingsdialogue.ShowDialog()
+    _connector = m_settingsdialogue.Connector
+
+    ExpireSolution(True)
+
+  End Sub
+
+  'GH Writer
+  Public Overrides Function Write(writer As GH_IWriter) As Boolean
+    writer.SetString("Connector", _connector)
+    Return MyBase.Write(writer)
+  End Function
+
+  'GH Reader
+  Public Overrides Function Read(reader As GH_IReader) As Boolean
+    reader.TryGetString("Connector", _connector)
+    Return MyBase.Read(reader)
+  End Function
+#End Region
+
 #Region "Inputs/Outputs"
   Protected Overrides Sub RegisterInputParams(ByVal pManager As Grasshopper.Kernel.GH_Component.GH_InputParamManager)
 
@@ -51,7 +87,19 @@ Public Class SQLQUERY_TableList
 
 #Region "Solution"
   Protected Overrides Sub SolveInstance(ByVal DA As Grasshopper.Kernel.IGH_DataAccess)
-    DA.SetData(0, "SHOW tables;")
+    If _connector = "MySQL" Then
+      DA.SetData(0, "SHOW tables;")
+
+    ElseIf _connector = "Oracle" Then
+      DA.SetData(0, "SELECT table_name FROM all_tables;")
+
+    ElseIf _connector = "PostgreSQL" Then
+      DA.SetData(0, "SELECT * FROM pg_catalog.pg_tables")
+
+    ElseIf _connector = "SQL Server 2012" Then
+      DA.SetData(0, "SELECT * FROM information_schema.tables")
+
+    End If
   End Sub
 #End Region
 

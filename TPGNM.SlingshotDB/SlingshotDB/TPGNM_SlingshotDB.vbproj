@@ -157,14 +157,14 @@
     </Compile>
     <None Include="LEGACY\SQL\SQLCOM_CreateColumn.vb" />
     <None Include="LEGACY\SQL\SQLCOM_CreateColumnAfter.vb" />
-    <None Include="LEGACY\SQL\SQLCOM_CreateDatabase.vb" />
+    <Compile Include="SQL\SQLCOM_CreateDatabase.vb" />
     <None Include="LEGACY\SQL\SQLCOM_CreateTable.vb" />
     <None Include="LEGACY\SQL\SQLCOM_Insert.vb" />
-    <None Include="LEGACY\SQL\SQLCOM_TruncateTable.vb" />
-    <None Include="LEGACY\SQL\SQLQUERY_ColumnList.vb" />
-    <None Include="LEGACY\SQL\SQLQUERY_DatabaseList.vb" />
-    <None Include="LEGACY\SQL\SQLQUERY_Select.vb" />
-    <None Include="LEGACY\SQL\SQLQUERY_TableList.vb" />
+    <Compile Include="SQL\SQLCOM_TruncateTable.vb" />
+    <Compile Include="SQL\SQLQUERY_ColumnList.vb" />
+    <Compile Include="SQL\SQLQUERY_DatabaseList.vb" />
+    <Compile Include="SQL\SQLQUERY_Select.vb" />
+    <Compile Include="SQL\SQLQUERY_TableList.vb" />
     <Compile Include="Utilities\UTIL_ColumnParameter.vb" />
     <None Include="LEGACY\SQL\SQLCOM2_CreateMeshDB.vb" />
     <None Include="LEGACY\SQL\SQLCOM2_CreateSensorDB.vb" />
