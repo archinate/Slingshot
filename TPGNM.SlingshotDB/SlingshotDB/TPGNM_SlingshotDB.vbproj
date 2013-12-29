@@ -158,8 +158,8 @@
     <None Include="LEGACY\SQL\SQLCOM_CreateColumn.vb" />
     <None Include="LEGACY\SQL\SQLCOM_CreateColumnAfter.vb" />
     <Compile Include="SQL\SQLCOM_CreateDatabase.vb" />
-    <None Include="LEGACY\SQL\SQLCOM_CreateTable.vb" />
-    <None Include="LEGACY\SQL\SQLCOM_Insert.vb" />
+    <Compile Include="SQL\SQLCOM_CreateTable.vb" />
+    <Compile Include="SQL\SQLCOM_Insert.vb" />
     <Compile Include="SQL\SQLCOM_TruncateTable.vb" />
     <Compile Include="SQL\SQLQUERY_ColumnList.vb" />
     <Compile Include="SQL\SQLQUERY_DatabaseList.vb" />

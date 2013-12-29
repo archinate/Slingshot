@@ -8,7 +8,9 @@ Imports GH_IO.Serialization
 Imports System
 
 Public Class SQLCOM_CreateTable
-    Inherits Grasshopper.Kernel.GH_Component
+  Inherits Grasshopper.Kernel.GH_Component
+
+  Private _connector As String = "MySQL"
 
 #Region "Register"
   'Methods
@@ -41,6 +43,40 @@ Public Class SQLCOM_CreateTable
   Protected Overrides Sub RegisterOutputParams(ByVal pManager As Grasshopper.Kernel.GH_Component.GH_OutputParamManager)
     pManager.Register_StringParam("SQL Code", "SQL", "SQL Code")
   End Sub
+#End Region
+
+#Region "Menu Items"
+  'Append Component menues.
+  Public Overrides Function AppendMenuItems(menu As Windows.Forms.ToolStripDropDown) As Boolean
+
+    Menu_AppendItem(menu, "Connector Settings...", AddressOf Menu_Settings)
+
+    Return True
+  End Function
+
+  'On menu item click...
+  Private Sub Menu_Settings(ByVal sender As Object, ByVal e As EventArgs)
+
+    'Open Settings dialogue
+    Dim m_settingsdialogue As New form_DBSelect(_connector)
+    m_settingsdialogue.ShowDialog()
+    _connector = m_settingsdialogue.Connector
+
+    ExpireSolution(True)
+
+  End Sub
+
+  'GH Writer
+  Public Overrides Function Write(writer As GH_IWriter) As Boolean
+    writer.SetString("Connector", _connector)
+    Return MyBase.Write(writer)
+  End Function
+
+  'GH Reader
+  Public Overrides Function Read(reader As GH_IReader) As Boolean
+    reader.TryGetString("Connector", _connector)
+    Return MyBase.Read(reader)
+  End Function
 #End Region
 
 #Region "Solution"

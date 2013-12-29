@@ -8,7 +8,9 @@ Imports GH_IO.Serialization
 Imports System
 
 Public Class SQLCOM_Insert
-    Inherits Grasshopper.Kernel.GH_Component
+  Inherits Grasshopper.Kernel.GH_Component
+
+  Private _connector As String = "MySQL"
 
 #Region "Register"
   'Methods
@@ -34,7 +36,7 @@ Public Class SQLCOM_Insert
 #Region "Inputs/Outputs"
   Protected Overrides Sub RegisterInputParams(ByVal pManager As Grasshopper.Kernel.GH_Component.GH_InputParamManager)
 
-    pManager.AddTextParameter("Table", "Table", "A MySQL database table.", GH_ParamAccess.item, "")
+    pManager.AddTextParameter("Table", "Table", "A database table.", GH_ParamAccess.item, "")
     pManager.AddTextParameter("Columns", "Columns", "A list of columns to write data to in a table.", GH_ParamAccess.list, "")
     pManager.AddTextParameter("Data", "Data", "A list of data to write.", GH_ParamAccess.list, "")
     pManager.AddBooleanParameter("Update", "Update", "Default is set to 'False' to use INSERT INTO method.  'True' uses UPDATE SET WHERE method to update columns based on a condition.  ", GH_ParamAccess.item, False)
@@ -45,6 +47,40 @@ Public Class SQLCOM_Insert
   Protected Overrides Sub RegisterOutputParams(ByVal pManager As Grasshopper.Kernel.GH_Component.GH_OutputParamManager)
     pManager.Register_StringParam("SQL Code", "SQL", "Mesh SQL Code")
   End Sub
+#End Region
+
+#Region "Menu Items"
+  'Append Component menues.
+  Public Overrides Function AppendMenuItems(menu As Windows.Forms.ToolStripDropDown) As Boolean
+
+    Menu_AppendItem(menu, "Connector Settings...", AddressOf Menu_Settings)
+
+    Return True
+  End Function
+
+  'On menu item click...
+  Private Sub Menu_Settings(ByVal sender As Object, ByVal e As EventArgs)
+
+    'Open Settings dialogue
+    Dim m_settingsdialogue As New form_DBSelect(_connector)
+    m_settingsdialogue.ShowDialog()
+    _connector = m_settingsdialogue.Connector
+
+    ExpireSolution(True)
+
+  End Sub
+
+  'GH Writer
+  Public Overrides Function Write(writer As GH_IWriter) As Boolean
+    writer.SetString("Connector", _connector)
+    Return MyBase.Write(writer)
+  End Function
+
+  'GH Reader
+  Public Overrides Function Read(reader As GH_IReader) As Boolean
+    reader.TryGetString("Connector", _connector)
+    Return MyBase.Read(reader)
+  End Function
 #End Region
 
 #Region "Solution"
