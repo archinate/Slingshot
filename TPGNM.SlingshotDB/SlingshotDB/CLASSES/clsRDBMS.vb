@@ -15,16 +15,18 @@ Public Class clsRDBMS
   ''' <param name="com">Command</param>
   ''' <returns>Boolean for Success or Failure</returns>
   ''' <remarks></remarks>
-  Public Function MySQLCommand(ByRef cs As String, ByRef com As String) As Boolean
+  Public Function MySQLCommand(ByRef cs As String, ByRef com As List(Of String)) As Boolean
     Try
       'Establish MySQL Database Connection
       Dim mysqlConnect As MySql.Data.MySqlClient.MySqlConnection = New MySql.Data.MySqlClient.MySqlConnection(cs)
       Dim mysqldata As New MySql.Data.MySqlClient.MySqlDataAdapter
       mysqlConnect.Open()
 
-      'Insert Command
-      mysqldata.InsertCommand = New MySql.Data.MySqlClient.MySqlCommand(com, mysqlConnect)
-      mysqldata.InsertCommand.ExecuteNonQuery()
+      For Each c As String In com
+        'Insert Command
+        mysqldata.InsertCommand = New MySql.Data.MySqlClient.MySqlCommand(c, mysqlConnect)
+        mysqldata.InsertCommand.ExecuteNonQuery()
+      Next
 
       'Close the connection
       mysqlConnect.Close()
@@ -42,15 +44,18 @@ Public Class clsRDBMS
   ''' <param name="com">Command</param>
   ''' <returns>Boolean for Success or Failure</returns>
   ''' <remarks></remarks>
-  Public Function ODBCCommand(ByRef cs As String, ByRef com As String) As Boolean
+  Public Function ODBCCommand(ByRef cs As String, ByRef com As List(Of String)) As Boolean
     Try
       'Connect to ODBC
       Dim dbConnect As OdbcConnection = New OdbcConnection(cs)
       dbConnect.Open()
 
       'Execute command
-      Dim dbCommand As OdbcCommand = New OdbcCommand(com, dbConnect)
-      dbCommand.ExecuteNonQuery()
+      For Each c As String In com
+        Dim dbCommand As OdbcCommand = New OdbcCommand(c, dbConnect)
+        dbCommand.ExecuteNonQuery()
+      Next
+
       dbConnect.Close()
 
       Return True
@@ -66,15 +71,18 @@ Public Class clsRDBMS
   ''' <param name="com">Command</param>
   ''' <returns>Boolean for Success or Failure</returns>
   ''' <remarks></remarks>
-  Public Function OLEDBCommand(ByRef cs As String, ByRef com As String) As Boolean
+  Public Function OLEDBCommand(ByRef cs As String, ByRef com As List(Of String)) As Boolean
     Try
       'Connect to OLEDB
       Dim dbConnect As OleDbConnection = New OleDbConnection(cs)
       dbConnect.Open()
 
       'Execute OLEDB command
-      Dim dbCommand As OleDbCommand = New OleDbCommand(com, dbConnect)
-      dbCommand.ExecuteNonQuery()
+      For Each c As String In com
+        Dim dbCommand As OleDbCommand = New OleDbCommand(c, dbConnect)
+        dbCommand.ExecuteNonQuery()
+      Next
+
       dbConnect.Close()
 
       Return True
@@ -87,10 +95,10 @@ Public Class clsRDBMS
   ''' Excel Command
   ''' </summary>
   ''' <param name="p">File Path</param>
-  ''' <param name="c">Command</param>
+  ''' <param name="com">Command</param>
   ''' <returns>Boolean for Success or Failure</returns>
   ''' <remarks></remarks>
-  Public Function ExcelCommand(ByRef p As String, ByRef c As String) As Boolean
+  Public Function ExcelCommand(ByRef p As String, ByRef com As List(Of String)) As Boolean
     Try
       Dim cs As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & p & ";Extended Properties=""Excel 12.0;HDR=Yes"""
 
@@ -98,9 +106,12 @@ Public Class clsRDBMS
       Dim dbConnect As OleDbConnection = New OleDbConnection(cs)
       dbConnect.Open()
 
-      'Execute OLEDB command
-      Dim dbCommand As OleDbCommand = New OleDbCommand(c, dbConnect)
-      dbCommand.ExecuteNonQuery()
+      For Each c As String In com
+        'Execute OLEDB command
+        Dim dbCommand As OleDbCommand = New OleDbCommand(c, dbConnect)
+        dbCommand.ExecuteNonQuery()
+      Next
+
       dbConnect.Close()
 
       Return True
@@ -113,10 +124,10 @@ Public Class clsRDBMS
   ''' SQLite Command
   ''' </summary>
   ''' <param name="p">File Path</param>
-  ''' <param name="c">Command</param>
+  ''' <param name="com">Command</param>
   ''' <returns>Boolean for Success or Failure</returns>
   ''' <remarks></remarks>
-  Public Function SQLiteCommand(ByRef p As String, ByRef c As String) As Boolean
+  Public Function SQLiteCommand(ByRef p As String, ByRef com As List(Of String)) As Boolean
     Try
       Dim filepath As String = p
 
@@ -126,10 +137,12 @@ Public Class clsRDBMS
 
       SQLConnect.ConnectionString = "Data Source=" & filepath
       SQLConnect.Open()
-      SQLCommand = SQLConnect.CreateCommand
-      SQLCommand.CommandText = c
-      SQLCommand.ExecuteNonQuery()
-      SQLCommand.Dispose()
+      For Each c As String In com
+        SQLCommand = SQLConnect.CreateCommand
+        SQLCommand.CommandText = c
+        SQLCommand.ExecuteNonQuery()
+        SQLCommand.Dispose()
+      Next
       SQLConnect.Close()
 
       Return True

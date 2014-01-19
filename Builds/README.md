@@ -1,7 +1,17 @@
 Slingshot! Builds
 =========
 
-This folder contains latest tested builds of Slingshot! for Grasshopper.  Slingshot! can be installed by placing all *.dll and *.gha in your Grasshopper libraries directory... usually:  C:\Users\<user>\AppData\Roaming\Grasshopper\Libraries
+This folder contains latest tested builds of Slingshot! for Grasshopper.  
+
+Slingshot! can be installed by placing the following files into your Grasshopper libraries directory... usually:  C:\Users\<user>\AppData\Roaming\Grasshopper\Libraries
+
+* TPGNM_SlingshotDB.gha
+
+Slingshot! also depends on the following dlls...
+
+* MySql.Data.dll
+* SQLite.Interop.dll
+* System.Data.SQLite.dll
 
 Slingshot! for Grasshopper is tested with the following...
 * Windows 7 Professional

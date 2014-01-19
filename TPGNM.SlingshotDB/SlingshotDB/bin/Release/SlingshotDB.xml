@@ -56,7 +56,7 @@ form_DBSelect
 	<param name="filt">Filter</param>
 	<returns>File path as String</returns>
 	<remarks></remarks>
-</member><member name="M:SlingshotDB.clsRDBMS.MySQLCommand(System.String@,System.String@)">
+</member><member name="M:SlingshotDB.clsRDBMS.MySQLCommand(System.String@,System.Collections.Generic.List{System.String}@)">
 	<summary>
  MySQL Command
  </summary>
@@ -64,7 +64,7 @@ form_DBSelect
 	<param name="com">Command</param>
 	<returns>Boolean for Success or Failure</returns>
 	<remarks></remarks>
-</member><member name="M:SlingshotDB.clsRDBMS.ODBCCommand(System.String@,System.String@)">
+</member><member name="M:SlingshotDB.clsRDBMS.ODBCCommand(System.String@,System.Collections.Generic.List{System.String}@)">
 	<summary>
  ODBC Command
  </summary>
@@ -72,7 +72,7 @@ form_DBSelect
 	<param name="com">Command</param>
 	<returns>Boolean for Success or Failure</returns>
 	<remarks></remarks>
-</member><member name="M:SlingshotDB.clsRDBMS.OLEDBCommand(System.String@,System.String@)">
+</member><member name="M:SlingshotDB.clsRDBMS.OLEDBCommand(System.String@,System.Collections.Generic.List{System.String}@)">
 	<summary>
  OLEDB Command
  </summary>
@@ -80,20 +80,20 @@ form_DBSelect
 	<param name="com">Command</param>
 	<returns>Boolean for Success or Failure</returns>
 	<remarks></remarks>
-</member><member name="M:SlingshotDB.clsRDBMS.ExcelCommand(System.String@,System.String@)">
+</member><member name="M:SlingshotDB.clsRDBMS.ExcelCommand(System.String@,System.Collections.Generic.List{System.String}@)">
 	<summary>
  Excel Command
  </summary>
 	<param name="p">File Path</param>
-	<param name="c">Command</param>
+	<param name="com">Command</param>
 	<returns>Boolean for Success or Failure</returns>
 	<remarks></remarks>
-</member><member name="M:SlingshotDB.clsRDBMS.SQLiteCommand(System.String@,System.String@)">
+</member><member name="M:SlingshotDB.clsRDBMS.SQLiteCommand(System.String@,System.Collections.Generic.List{System.String}@)">
 	<summary>
  SQLite Command
  </summary>
 	<param name="p">File Path</param>
-	<param name="c">Command</param>
+	<param name="com">Command</param>
 	<returns>Boolean for Success or Failure</returns>
 	<remarks></remarks>
 </member><member name="M:SlingshotDB.clsRDBMS.AccessCommand(System.String@,System.String@)">
@@ -171,6 +171,13 @@ form_DBSelect
  </summary>
 	<param name="d">Database</param>
 	<param name="f">File</param>
+	<remarks></remarks>
+</member><member name="M:SlingshotDB.form_DataGrid.form_DataGrid_Load(System.Object,System.EventArgs)">
+	<summary>
+ Loads the Form
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
 	<remarks></remarks>
 </member><member name="M:SlingshotDB.form_DBSelect.#ctor(System.String@)">
 	<summary>

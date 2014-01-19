@@ -12,7 +12,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("Allows Grasshopper to connect to different databases and data sources.")> 
 <Assembly: AssemblyCompany("")> 
 <Assembly: AssemblyProduct("Slingshot! Database for Grasshopper")> 
-<Assembly: AssemblyCopyright("Copyright ©  2013 Nathan Miller")> 
+<Assembly: AssemblyCopyright("Copyright ©  2014 Nathan Miller")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("2013.12.29.0")> 
-<Assembly: AssemblyFileVersion("2013.12.29.0")> 
+<Assembly: AssemblyVersion("2014.01.19.0")> 
+<Assembly: AssemblyFileVersion("2014.01.19.0")> 

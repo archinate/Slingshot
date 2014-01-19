@@ -12,6 +12,7 @@ Public Class GHRDBFILE_Query
 
   Private _rdbms As String = "SQLite"
   Private _path As String = ""
+  Private _datatable As DataTable = Nothing
 
 #Region "Register"
   'Methods
@@ -46,6 +47,7 @@ Public Class GHRDBFILE_Query
   Public Overrides Function AppendMenuItems(menu As Windows.Forms.ToolStripDropDown) As Boolean
 
     Menu_AppendItem(menu, "Database Settings...", AddressOf Menu_Settings)
+    Menu_AppendItem(menu, "View Query Result...", AddressOf Menu_Datagrid)
 
     Return True
   End Function
@@ -54,12 +56,18 @@ Public Class GHRDBFILE_Query
   Private Sub Menu_Settings(ByVal sender As Object, ByVal e As EventArgs)
 
     'Open Settings dialogue
-    Dim m_settingsdialogue As New form_FileSelect(_rdbms, _path)
-    m_settingsdialogue.ShowDialog()
-    _rdbms = m_settingsdialogue.DatabaseType
-    _path = m_settingsdialogue.FilePath
+    Dim m_settingsdialog As New form_FileSelect(_rdbms, _path)
+    m_settingsdialog.ShowDialog()
+    _rdbms = m_settingsdialog.DatabaseType
+    _path = m_settingsdialog.FilePath
 
     ExpireSolution(True)
+
+  End Sub
+
+  Private Sub Menu_Datagrid(ByVal sender As Object, ByVal e As EventArgs)
+    Dim m_datagriddialog As New form_DataGrid(_datatable)
+    m_datagriddialog.ShowDialog()
 
   End Sub
 
@@ -91,7 +99,8 @@ Public Class GHRDBFILE_Query
 
   Protected Overrides Sub RegisterOutputParams(ByVal pManager As Grasshopper.Kernel.GH_Component.GH_OutputParamManager)
     pManager.Register_GenericParam("Exceptions", "out", "Displays errors.")
-    pManager.Register_GenericParam("Query DataSet", "DataSet", "A set of results represented as a tree.")
+    pManager.Register_GenericParam("Table Headings", "Headings", "A set of results represented as a tree.")
+    pManager.Register_GenericParam("Table Data", "Data", "A set of results represented as a tree.")
   End Sub
 
   Protected Overrides Sub SolveInstance(ByVal DA As Grasshopper.Kernel.IGH_DataAccess)
@@ -118,7 +127,10 @@ Public Class GHRDBFILE_Query
 
         Dim ds As DataSet = sqlDataSet
         Dim items As New DataTree(Of String)
+        Dim headings As New List(Of String)
 
+        'assign datatable
+        _datatable = ds.Tables(0)
 
         For i As Int32 = 0 To ds.Tables.Count - 1
           'DataTable
@@ -126,6 +138,7 @@ Public Class GHRDBFILE_Query
 
           'Iterate through datatable
           For j As Int32 = 0 To dt.Columns.Count - 1
+            headings.Add(dt.Columns(j).ColumnName)
             For k As Int32 = 0 To dt.Rows.Count - 1
 
               Dim path As New GH_Path()
@@ -143,7 +156,8 @@ Public Class GHRDBFILE_Query
           Next
         Next
         'Set Data lists to outputs
-        DA.SetDataTree(1, items)
+        DA.SetDataList(1, headings)
+        DA.SetDataTree(2, items)
       End If
 
     Catch ex As Exception

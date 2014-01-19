@@ -82,7 +82,7 @@ Public Class GHRDBFILE_Command
 
   Protected Overrides Sub RegisterInputParams(ByVal pManager As Grasshopper.Kernel.GH_Component.GH_InputParamManager)
     pManager.AddBooleanParameter("Connect Toggle", "CToggle", "Set to 'True' to connect.", False, GH_ParamAccess.item)
-    pManager.AddTextParameter("SQL Command", "Command", "A SQL command.", GH_ParamAccess.item)
+    pManager.AddTextParameter("SQL Command", "Command", "A SQL command.", GH_ParamAccess.list)
 
   End Sub
 
@@ -100,20 +100,20 @@ Public Class GHRDBFILE_Command
       Dim connector As String = _connector
       Dim filepath As String = _path
       Dim connect As Boolean = False
-      Dim command As String = Nothing
+      Dim command As New List(Of String)
 
       DA.GetData(Of Boolean)(0, connect)
-      DA.GetData(Of String)(1, command)
+      DA.GetDataList(Of String)(1, command)
 
       Dim bool As Boolean = False
       If connect = True Then
         Dim dbcommand As New clsRDBMS()
         If connector = "Access" Then
-          bool = dbcommand.MySQLCommand(filepath, command)
+          'bool = dbcommand.MySQLCommand(filepath, command)
         ElseIf connector = "Excel" Then
           bool = dbcommand.ODBCCommand(filepath, command)
         ElseIf connector = "SQLite" Then
-          bool = dbcommand.OLEDBCommand(filepath, command)
+          bool = dbcommand.SQLiteCommand(filepath, command)
         End If
 
         'Display success

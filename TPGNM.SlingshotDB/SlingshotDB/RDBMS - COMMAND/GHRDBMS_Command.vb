@@ -79,7 +79,7 @@ Public Class GHRDBMS_Command
   Protected Overrides Sub RegisterInputParams(ByVal pManager As Grasshopper.Kernel.GH_Component.GH_InputParamManager)
     pManager.AddTextParameter("Connect String", "CString", "A MySQL connection string.", GH_ParamAccess.item)
     pManager.AddBooleanParameter("Connect Toggle", "CToggle", "Set to 'True' to connect.", False, GH_ParamAccess.item)
-    pManager.AddTextParameter("Command", "Command", "A SQL command.", GH_ParamAccess.item)
+    pManager.AddTextParameter("Command", "Command", "A SQL command.", GH_ParamAccess.list)
 
   End Sub
 
@@ -96,11 +96,11 @@ Public Class GHRDBMS_Command
       Dim RDBMS As String = _rdbms
       Dim cstring As String = Nothing
       Dim connect As Boolean = False
-      Dim command As String = Nothing
+      Dim command As New List(Of String)
 
       DA.GetData(Of String)(0, cstring)
       DA.GetData(Of Boolean)(1, connect)
-      DA.GetData(Of String)(2, command)
+      DA.GetDataList(Of String)(2, command)
 
       Dim bool As Boolean = False
       If connect = True Then

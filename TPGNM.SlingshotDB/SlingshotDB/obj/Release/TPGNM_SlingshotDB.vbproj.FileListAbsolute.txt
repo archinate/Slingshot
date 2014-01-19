@@ -19,3 +19,4 @@ C:\Users\nmiller\Documents\GitHub\Slingshot\TPGNM.SlingshotDB\SlingshotDB\obj\Re
 C:\Users\nmiller\Documents\GitHub\Slingshot\TPGNM.SlingshotDB\SlingshotDB\obj\Release\SlingshotDB.dll
 C:\Users\nmiller\Documents\GitHub\Slingshot\TPGNM.SlingshotDB\SlingshotDB\obj\Release\SlingshotDB.xml
 C:\Users\nmiller\Documents\GitHub\Slingshot\TPGNM.SlingshotDB\SlingshotDB\obj\Release\SlingshotDB.pdb
+C:\Users\nmiller\Documents\GitHub\Slingshot\TPGNM.SlingshotDB\SlingshotDB\obj\Release\SlingshotDB.form_DataGrid.resources

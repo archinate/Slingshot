@@ -100,6 +100,7 @@
   <ItemGroup>
     <Compile Include="CLASSES\clsDialogs.vb" />
     <Compile Include="CLASSES\clsRDBMS.vb" />
+    <Compile Include="CLASSES\clsSQL.vb" />
     <Compile Include="RDBMS - CONNECT\CONNECT_RDBMS.vb" />
     <Compile Include="RDBMS - COMMAND\GHRDBFILE_Command.vb" />
     <Compile Include="RDBMS - COMMAND\GHRDBMS_Command.vb" />
@@ -115,6 +116,12 @@
     <Compile Include="SQL\SQLDB_CreatePointsDB.vb" />
     <Compile Include="UI\form_Connect.xaml.vb">
       <DependentUpon>form_Connect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\form_DataGrid.Designer.vb">
+      <DependentUpon>form_DataGrid.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UI\form_DataGrid.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\form_DBConnector.xaml.vb">
       <DependentUpon>form_DBConnector.xaml</DependentUpon>
@@ -181,6 +188,9 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\form_DataGrid.resx">
+      <DependentUpon>form_DataGrid.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
