@@ -1,4 +1,6 @@
-Slingshot! for Grasshopper
+Slingshot has Moved to BitBucket.org!
+=========
+https://bitbucket.org/archinate/slingshot
 =========
 
 Slingshot! for Grasshopper exposes components for use with the Grasshopper plug-in for Rhino.  Slingshot! components enable users to access, modify, query, and create relational databases from within Grasshopper using interfaces such as MySQL, ODBC, and SQLite.  
